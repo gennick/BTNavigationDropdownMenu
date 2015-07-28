@@ -218,24 +218,24 @@ public class BTNavigationDropdownMenu: UIView {
         self.backgroundView.alpha = self.configuration.maskBackgroundOpacity
         
         UIView.animateWithDuration(
-            self.configuration.animationDuration * 1.5,
+            self.configuration.animationDuration * 0.5,
             delay: 0,
             usingSpringWithDamping: 0.7,
             initialSpringVelocity: 0.5,
             options: nil,
             animations: {
-                self.tableView.frame.origin.y = CGFloat(-200)
-            }, completion: nil
+                self.tableView.frame.origin.y = CGFloat(-280)
+            }, completion: { _ in
+                // Animation
+                UIView.animateWithDuration(self.configuration.animationDuration, delay: 0, options: UIViewAnimationOptions.TransitionNone, animations: {
+                    self.tableView.frame.origin.y = -CGFloat(self.items.count) * self.configuration.cellHeight - 300
+                    self.backgroundView.alpha = 0
+                    }, completion: { _ in
+                        self.tableView.removeFromSuperview()
+                        self.backgroundView.removeFromSuperview()
+                })
+            }
         )
-        
-        // Animation
-        UIView.animateWithDuration(self.configuration.animationDuration, delay: 0, options: UIViewAnimationOptions.TransitionNone, animations: {
-            self.tableView.frame.origin.y = -CGFloat(self.items.count) * self.configuration.cellHeight - 300
-            self.backgroundView.alpha = 0
-        }, completion: { _ in
-            self.tableView.removeFromSuperview()
-            self.backgroundView.removeFromSuperview()
-        })
     }
     
     func rotateArrow() {
